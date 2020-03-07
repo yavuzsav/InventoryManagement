@@ -1,20 +1,21 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
+using Domain;
 using MediatR;
 using Persistence;
 
-namespace Application.Categories
+namespace Application.Stores
 {
-    public class Edit
+    public class Create
     {
         public class Command : IRequest
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
-            public string Description { get; set; }
+            public string Province { get; set; }
+            public string District { get; set; }
+            public string Address { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -27,14 +28,16 @@ namespace Application.Categories
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var category = await _context.Categories.FindAsync(request.Id);
+                var store = new Store
+                {
+                    Id = request.Id,
+                    Name = request.Name,
+                    Province = request.Province,
+                    District = request.District,
+                    Address = request.Address
+                };
 
-                if (category == null)
-                    throw new RestException(HttpStatusCode.NotFound, new { category = "Not found" });
-
-                category.Name = request.Name ?? category.Name;
-                category.Description = request.Description ?? category.Description;
-
+                _context.Stores.Add(store);
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;

@@ -6,7 +6,7 @@ using Application.Errors;
 using MediatR;
 using Persistence;
 
-namespace Application.Categories
+namespace Application.Stores
 {
     public class Edit
     {
@@ -14,7 +14,9 @@ namespace Application.Categories
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
-            public string Description { get; set; }
+            public string Province { get; set; }
+            public string District { get; set; }
+            public string Address { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -27,13 +29,15 @@ namespace Application.Categories
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var category = await _context.Categories.FindAsync(request.Id);
+                var store = await _context.Stores.FindAsync(request.Id);
 
-                if (category == null)
-                    throw new RestException(HttpStatusCode.NotFound, new { category = "Not found" });
+                if (store == null)
+                    throw new RestException(HttpStatusCode.NotFound, new {store = "Not found"});
 
-                category.Name = request.Name ?? category.Name;
-                category.Description = request.Description ?? category.Description;
+                store.Name = request.Name ?? store.Name;
+                store.Province = request.Province ?? store.Province;
+                store.District = request.District ?? store.District;
+                store.Address = request.Address ?? store.Address;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

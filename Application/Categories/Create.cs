@@ -12,7 +12,7 @@ namespace Application.Categories
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            public string CategoryName { get; set; }
+            public string Name { get; set; }
             public string Description { get; set; }
         }
 
@@ -29,7 +29,7 @@ namespace Application.Categories
                 var category = new Category
                 {
                     Id = request.Id,
-                    CategoryName = request.CategoryName,
+                    Name = request.Name,
                     Description = request.Description
                 };
 

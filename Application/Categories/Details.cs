@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using MediatR;
 using Persistence;
@@ -25,6 +27,9 @@ namespace Application.Categories
             public async Task<Category> Handle(Query request, CancellationToken cancellationToken)
             {
                 var category = await _context.Categories.FindAsync(request.Id);
+
+                if (category == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { category = "Not found" });
 
                 return category;
             }

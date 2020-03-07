@@ -13,32 +13,56 @@ namespace Persistence
             {
                 var categories = new List<Category>
                 {
-                    new Category 
+                    new Category
                     {
-                        CategoryName = "Bilgisayar"
+                        Name = "Bilgisayar"
                     },
-                    new Category 
+                    new Category
                     {
-                        CategoryName = "Cep Telefonu"
+                        Name = "Cep Telefonu"
                     },
-                    new Category 
+                    new Category
                     {
-                        CategoryName = "Temizlik",
+                        Name = "Temizlik",
                         Description = "Temizlik malzemeleri"
                     },
-                    new Category 
+                    new Category
                     {
-                        CategoryName = "İçecek",
+                        Name = "İçecek",
                         Description = "Alkolsüz içecekler"
                     },
-                    new Category 
+                    new Category
                     {
-                        CategoryName = "Peynir",
+                        Name = "Peynir",
                         Description = "Peynir çeşitleri"
                     },
                 };
 
                 await context.Categories.AddRangeAsync(categories);
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Stores.Any())
+            {
+                var stores = new List<Store>
+                {
+                    new Store
+                    {
+                        Name = "Merkez Depo Ankara",
+                        Province = "Ankara",
+                        District = "Yenimahalle",
+                        Address = "Yenimahalle/Ankara"
+                    },
+                    new Store
+                    {
+                        Name = "Bursa Depo - 1",
+                        Province = "Bursa",
+                        District = "Nilüfer",
+                        Address = "Nilüfer/Bursa"
+                    }
+                };
+
+                await context.Stores.AddRangeAsync(stores);
                 await context.SaveChangesAsync();
             }
         }

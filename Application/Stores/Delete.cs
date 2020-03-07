@@ -6,15 +6,13 @@ using Application.Errors;
 using MediatR;
 using Persistence;
 
-namespace Application.Categories
+namespace Application.Stores
 {
-    public class Edit
+    public class Delete
     {
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -27,13 +25,12 @@ namespace Application.Categories
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var category = await _context.Categories.FindAsync(request.Id);
+                var store = await _context.Stores.FindAsync(request.Id);
 
-                if (category == null)
+                if (store == null)
                     throw new RestException(HttpStatusCode.NotFound, new { category = "Not found" });
 
-                category.Name = request.Name ?? category.Name;
-                category.Description = request.Description ?? category.Description;
+                _context.Remove(store);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

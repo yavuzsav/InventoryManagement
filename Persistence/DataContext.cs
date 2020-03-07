@@ -10,6 +10,7 @@ namespace Persistence
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Store> Stores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

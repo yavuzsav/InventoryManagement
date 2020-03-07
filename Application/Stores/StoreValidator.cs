@@ -1,14 +1,14 @@
 using FluentValidation;
 
-namespace Application.Categories
+namespace Application.Stores
 {
-    public class CategoryValidator
+    public class StoreValidator
     {
         public class CreateValidator : AbstractValidator<Create.Command>
         {
             public CreateValidator()
             {
-                RuleFor(x => x.Name).NotEmpty();
+                RuleFor(x => x.Name).NotEmpty();               
             }
         }
 
@@ -16,7 +16,7 @@ namespace Application.Categories
         {
             public EditValidator()
             {
-                RuleFor(x => x.Name).NotEmpty();
+                RuleFor(x => x.Name).NotEmpty();               
             }
         }
     }
