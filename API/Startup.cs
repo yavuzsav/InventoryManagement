@@ -1,5 +1,6 @@
 using API.Middleware;
 using Application.Categories;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +32,7 @@ namespace API
             });
 
             services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddAutoMapper(typeof(List.Handler));
 
             services.AddControllers().AddFluentValidation(cfg =>
             {
