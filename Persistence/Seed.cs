@@ -69,21 +69,26 @@ namespace Persistence
                 await context.SaveChangesAsync();
             }
 
+            var productId1 = new Guid("6a08a451-2766-4af0-8c5a-f16b233c8f4e");
+            var productId2 = new Guid("c041eaa6-7853-4439-8b0f-f83ad91c923d");
             if (!context.Products.Any())
             {
                 var products = new List<Product>
                 {
                     new Product
                     {
+                        Id = productId1,
                         Name = "Macbook Pro",
                         Barcode = "123-123-123",
                         QuantityPerUnit = "1 adet",
                         UnitPrice = 25000,
                         CategoryId = categoryId1,
-                        StoreId = storeId1
+                        StoreId = storeId1,
+                        UnitsInStock = 35
                     },
                     new Product
                     {
+                        Id = productId2,
                         Name = "Asus Zenbook",
                         Barcode = "111-111-111",
                         QuantityPerUnit = "1 adet",
@@ -112,6 +117,32 @@ namespace Persistence
                 };
 
                 await context.Products.AddRangeAsync(products);
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.StockMovements.Any())
+            {
+                var stockMovements = new List<StockMovement>
+                {
+                    new StockMovement
+                    {
+                        ProductId = productId1,
+                        CurrentStock = 20,
+                        Quantity = 20,
+                        CreatedAt = DateTime.Now,
+                        Type = OperationType.StokGiris
+                    },
+                    new StockMovement
+                    {
+                        ProductId = productId1,
+                        CurrentStock = 35,
+                        Quantity = 15,
+                        CreatedAt = DateTime.Now,
+                        Type = OperationType.StokGiris
+                    }
+                };
+
+                await context.StockMovements.AddRangeAsync(stockMovements);
                 await context.SaveChangesAsync();
             }
         }
